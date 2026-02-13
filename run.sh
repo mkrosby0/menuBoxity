@@ -1,0 +1,1 @@
+make && valgrind ./run-test
