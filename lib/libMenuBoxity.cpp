@@ -108,6 +108,7 @@ TextReturn makeTextInMenu(MenuLines myMenu, std::vector<int> textOptionLines, in
 	struct widget_points box;
 	struct widget_points inputBox;
 	struct TextReturn returnValue = {-1, std::vector<std::string> {textOptionLines.size()}};
+	size_t cursLoc = 0;
 	int selectedItem = 0;
 	int rows = 0;
 	bool enterTextInput = false;
@@ -167,7 +168,8 @@ TextReturn makeTextInMenu(MenuLines myMenu, std::vector<int> textOptionLines, in
 			   					(y == selectedItem) ? TB_BLACK : foreground,
 			   					(y == selectedItem) ? highlight : background,
 			   					(y == selectedItem) ? ((inputBuf) ? inputBuf : returnValue.textInput[std::distance(textOptionLines.begin(), myIter)].c_str()) : returnValue.textInput[std::distance(textOptionLines.begin(), myIter)].c_str());
-			   			if (inputBuf) free(inputBuf);
+			   			if (enterTextInput) recolor_curs(TB_BLACK, TB_WHITE, cursLoc) ? tb_printf(5, 5, foreground, background, "SUCCESS") : tb_printf(5, 5, foreground, background, "ERROR");
+						if (inputBuf) free(inputBuf);
 			   			inputBuf = NULL;
 			   		}
 			   	}
@@ -232,6 +234,8 @@ TextReturn makeTextInMenu(MenuLines myMenu, std::vector<int> textOptionLines, in
 					case TB_KEY_ENTER: // enter no longer assumes exit
 						if (!(enterTextInput = std::find(textOptionLines.begin(), textOptionLines.end(), selectedItem) != textOptionLines.end()))
 							returnValue.buttonChoice = selectedItem;
+						else cursLoc = (box.y1 + selectedItem + 2) * global.width + (box.x1 + box.x2) / 2 + 2;// starting point of cur buf, box.start_x?
+												   // 
 						break;
 					case TB_KEY_ARROW_UP:
 						selectedItem = (selectedItem > 0) ? selectedItem - 1 : myMenu.menuLines.size() - 1;
@@ -285,3 +289,8 @@ int clear_col(int col, char replace) {
 	return TB_OK;
 }
 
+bool recolor_curs(int fg, int bg, size_t index) {
+	if (index <= global.width * global.height) cell_set(&(global.back.cells[index]), &(global.back.cells[index].ch), 1, fg, bg);
+	else return false;
+	return true;
+}

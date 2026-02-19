@@ -23,6 +23,9 @@ int widget_clear(const widget_points& widget, char replace = ' ');
 int clear_line(int line, char replace = ' ');
 int clear_col(int col, char replace = ' ');
 
+// Recolor a cursor
+bool recolor_curs(int fg = TB_WHITE, int bg = TB_BLACK, size_t index = 0);
+
 /*
  * makeMenu:
  *  Makes menu using MenuLines information.
