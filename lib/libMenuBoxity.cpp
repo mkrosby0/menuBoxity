@@ -4,7 +4,9 @@
 #include "../headers/libMenuBoxity.h"
 #include <algorithm>
 
-int makeMenu(MenuLines myMenu, int background, int foreground, int highlight) {
+using namespace menuBoxity;
+
+int menuBoxity::makeMenu(MenuLines myMenu, int background, int foreground, int highlight) {
 	struct tb_event ev {0};
 	struct input input;
 	struct widget_points box;
@@ -101,7 +103,7 @@ int makeMenu(MenuLines myMenu, int background, int foreground, int highlight) {
 	return returnValue;
 }
 
-TextReturn makeTextInMenu(MenuLines myMenu, std::vector<int> textOptionLines, int background, int foreground, int highlight) {
+TextReturn menuBoxity::makeTextInMenu(MenuLines myMenu, std::vector<int> textOptionLines, int background, int foreground, int highlight) {
 	char* inputBuf = NULL;
 	struct tb_event ev {0};
 	struct input input;
@@ -253,7 +255,7 @@ TextReturn makeTextInMenu(MenuLines myMenu, std::vector<int> textOptionLines, in
 	return returnValue;
 }
 
-int widget_clear(const widget_points& widget, char replace) {
+int menuBoxity::widget_clear(const widget_points& widget, char replace) {
 	int y, x, rv;
 	uint32_t space = (uint32_t)replace;
 	for (y = widget.y1; y <= widget.y2; y++) {
@@ -265,7 +267,7 @@ int widget_clear(const widget_points& widget, char replace) {
 	return TB_OK;
 }
 
-int clear_line(int line, char replace) {
+int menuBoxity::clear_line(int line, char replace) {
 	if (line < global.height) {
 	int x, rv;
 	uint32_t space = (uint32_t)replace;
@@ -277,7 +279,7 @@ int clear_line(int line, char replace) {
 	return TB_OK;
 }
 
-int clear_col(int col, char replace) {
+int menuBoxity::clear_col(int col, char replace) {
 	if (col < global.width) {
 	int y, rv;
 	uint32_t space = (uint32_t)replace;
@@ -289,7 +291,7 @@ int clear_col(int col, char replace) {
 	return TB_OK;
 }
 
-bool recolor_curs(int fg, int bg, size_t index) {
+bool menuBoxity::recolor_curs(int fg, int bg, size_t index) {
 	if (index <= global.width * global.height) cell_set(&(global.back.cells[index]), &(global.back.cells[index].ch), 1, fg, bg);
 	else return false;
 	return true;

@@ -2,12 +2,13 @@
 #include <string>
 #include <vector>
 
+namespace menuBoxity {
 struct MenuLines {
-	std::string menuName;								///< Menu Name
-	std::vector<std::string> menuLines;					///< Menu Options
-	int longestMenuLineLength;							///< Longest Line Length
-	std::string initialInfoLine = "";                   ///< Info Line at bottom
-	std::string storeName = "Project Bank";             ///< Name of Bank
+	std::string menuName;                   ///< Menu Name
+	std::vector<std::string> menuLines;     ///< Menu Options
+	int longestMenuLineLength;              ///< Longest Line Length
+	std::string initialInfoLine = "";       ///< Info Line at bottom
+	std::string storeName = "Project Bank"; ///< Name of Bank
 };
 
 struct TextReturn {
@@ -39,3 +40,4 @@ int makeMenu(MenuLines myMenu, int background = 0, int foreground = TB_WHITE, in
  *  int to delimit the end of the series.
  */
 TextReturn makeTextInMenu(MenuLines myMenu, std::vector<int> textOptionLines, int background = 0, int foreground = TB_WHITE, int highlight = TB_CYAN);
+}
